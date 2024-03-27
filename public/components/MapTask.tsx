@@ -1,4 +1,3 @@
-"use client"
 import React, { useEffect, useRef, useState } from 'react';
 import 'ol/ol.css';
 import Map from 'ol/Map';
@@ -11,9 +10,15 @@ import { Vector as VectorSource } from 'ol/source';
 import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style';
 import { getArea, getLength } from 'ol/sphere';
 
+// Define an interface for measurement
+interface Measurement {
+    type: string;
+    value: string;
+}
+
 const MapComponent = () => {
     const mapRef = useRef(null);
-    const [measurement, setMeasurement] = useState({});
+    const [measurement, setMeasurement] = useState<Measurement | null>(null); // Use Measurement or null
 
     useEffect(() => {
         

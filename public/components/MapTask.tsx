@@ -13,11 +13,13 @@ import { getArea, getLength } from 'ol/sphere';
 
 const MapComponent = () => {
     const mapRef = useRef(null);
-    const [measurement, setMeasurement] = useState(null);
+    const [measurement, setMeasurement] = useState({});
 
     useEffect(() => {
+        
         const map = new Map({
-            target: mapRef.current,
+
+            target: mapRef.current ?? "",
             layers: [
                 new TileLayer({
                     source: new OSM()
@@ -76,7 +78,7 @@ const MapComponent = () => {
         // Event listeners for measurement calculation
         drawLine.on('drawend', function (event) {
             const geometry = event.feature.getGeometry();
-            const length = getLength(geometry);
+            const length = getLength(geometry!);
             setMeasurement({
                 type: 'Line',
                 value: length.toFixed(2),
@@ -85,7 +87,7 @@ const MapComponent = () => {
 
         drawPolygon.on('drawend', function (event) {
             const geometry = event.feature.getGeometry();
-            const area = getArea(geometry);
+            const area = getArea(geometry!);
             setMeasurement({
                 type: 'Polygon',
                 value: area.toFixed(2),
@@ -95,7 +97,7 @@ const MapComponent = () => {
         return () => {
             map.dispose(); // Dispose the map instance to prevent memory leaks
         };
-    }, []);
+    }, [mapRef.current]);
 
     return (
         <div>
@@ -104,7 +106,7 @@ const MapComponent = () => {
                 <div>
                     <p>{`Measurement Type: ${measurement.type}`}</p>
                     <p>{`Value: ${measurement.value}`}</p>
-                </div>
+                </div>  
             )}
         </div>
     );

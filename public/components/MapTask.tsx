@@ -1,3 +1,5 @@
+
+"use client"
 import React, { useEffect, useRef, useState } from 'react';
 import 'ol/ol.css';
 import Map from 'ol/Map';
@@ -21,9 +23,7 @@ const MapComponent = () => {
     const [measurement, setMeasurement] = useState<Measurement | null>(null); // Use Measurement or null
 
     useEffect(() => {
-        
         const map = new Map({
-
             target: mapRef.current ?? "",
             layers: [
                 new TileLayer({
